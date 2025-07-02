@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: nl-to-sql-app
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: shiny run --reload app.py
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DB_NAME
+        fromDatabase:
+          name: nl2sql-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: nl2sql-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: nl2sql-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: nl2sql-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: nl2sql-db
+          property: port
+
+databases:
+  - name: nl2sql-db
+    databaseName: dvdrental
+    user: postgres
