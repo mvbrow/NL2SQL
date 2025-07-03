@@ -1,34 +1,33 @@
 services:
   - type: web
-    name: nl-to-sql-app
+    name: nl2sql-shiny-app
     env: python
-    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: shiny run --reload app.py
     envVars:
-      - key: OPENAI_API_KEY
-        sync: false  # Set manually in Render dashboard or in .env (not in repo)
-      - fromDatabase:
-          name: postgres-db
+      - key: DB_NAME
+        fromDatabase:
+          name: nl2sql-db
           property: database
-        key: DB_NAME
-      - fromDatabase:
-          name: postgres-db
+      - key: DB_USER
+        fromDatabase:
+          name: nl2sql-db
           property: user
-        key: DB_USER
-      - fromDatabase:
-          name: postgres-db
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: nl2sql-db
           property: password
-        key: DB_PASSWORD
-      - fromDatabase:
-          name: postgres-db
+      - key: DB_HOST
+        fromDatabase:
+          name: nl2sql-db
           property: host
-        key: DB_HOST
-      - fromDatabase:
-          name: postgres-db
+      - key: DB_PORT
+        fromDatabase:
+          name: nl2sql-db
           property: port
-        key: DB_PORT
+      - key: OPENAI_API_KEY
+        sync: false  # Set this manually in the Render dashboard or .env file
 
 databases:
-  - name: postgres-db
+  - name: nl2sql-db
     plan: free
