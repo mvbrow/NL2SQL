@@ -9,23 +9,23 @@ services:
         sync: false  # Set this in the Render dashboard manually
       - key: DB_NAME
         fromDatabase:
-          name: nl2sql-db
+          name: nl2sql_db
           property: database
       - key: DB_USER
         fromDatabase:
-          name: nl2sql-db
+          name: nl2sql_db
           property: user
       - key: DB_PASSWORD
         fromDatabase:
-          name: nl2sql-db
+          name: nl2sql_db
           property: password
       - key: DB_HOST
         fromDatabase:
-          name: nl2sql-db
+          name: nl2sql_db
           property: host
       - key: DB_PORT
         fromDatabase:
-          name: nl2sql-db
+          name: nl2sql_db
           property: port
 
 databases:
