@@ -6,29 +6,24 @@ services:
     startCommand: python app.py
     envVars:
       - key: OPENAI_API_KEY
-        sync: false  # Set this in the Render dashboard manually
-      - key: DB_NAME
-        fromDatabase:
-          name: nl2sql_db
+        sync: false
+      - fromDatabase:
+          name: nl2sql_db  # must match your DB service name on Render
           property: database
-      - key: DB_USER
-        fromDatabase:
+          envVarName: DB_NAME
+      - fromDatabase:
           name: nl2sql_db
           property: user
-      - key: DB_PASSWORD
-        fromDatabase:
+          envVarName: DB_USER
+      - fromDatabase:
           name: nl2sql_db
           property: password
-      - key: DB_HOST
-        fromDatabase:
+          envVarName: DB_PASSWORD
+      - fromDatabase:
           name: nl2sql_db
           property: host
-      - key: DB_PORT
-        fromDatabase:
+          envVarName: DB_HOST
+      - fromDatabase:
           name: nl2sql_db
           property: port
-
-databases:
-  - name: nl2sql-db
-    databaseName: nl2sql_db
-    user: postgres
+          envVarName: DB_PORT
