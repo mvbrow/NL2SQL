@@ -29,5 +29,5 @@ services:
         sync: false  # Set this manually in the Render dashboard or .env file
 
 databases:
-  - name: nl2sql-db
+  - name: nl2sql_db
     plan: free
