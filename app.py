@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 # === Load environment variables ===
 load_dotenv()
 
+# === Debug: Print DB Host for verification ===
+print("DB HOST:", os.getenv("DB_HOST"))
+
 # === Validate OpenAI key ===
 openai_api_key = os.getenv("OPENAI_API_KEY")
 if not openai_api_key:
