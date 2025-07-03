@@ -6,9 +6,9 @@ services:
     startCommand: python app.py
     envVars:
       - key: OPENAI_API_KEY
-        sync: false
+        sync: false  # You still need to manually set this one in the Dashboard
       - fromDatabase:
-          name: nl2sql_db  # must match your DB service name on Render
+          name: nl2sql_db       # Render database name
           property: database
           envVarName: DB_NAME
       - fromDatabase:
