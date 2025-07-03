@@ -6,6 +6,8 @@ import psycopg2
 import openai
 import os
 from dotenv import load_dotenv
+import sys
+from shiny import run_app
 
 # === Load environment variables from .env ===
 load_dotenv()
@@ -125,7 +127,8 @@ def server(input, output, session):
 
 # === Create App ===
 app = App(app_ui, server)
-# At the very bottom of your app.py
+# This ensures your app binds to the correct port Render expects
 if __name__ == "__main__":
-    import shiny
-    shiny.run_app(app, host="0.0.0.0", port=8080)
+    port = int(os.environ.get("PORT", "8000"))  # Fallback to 8000 for local dev
+    run_app(app, host="0.0.0.0", port=port)
+
