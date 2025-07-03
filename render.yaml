@@ -1,12 +1,12 @@
 services:
   - type: web
-    name: nl2sql-shiny-app
+    name: nl2sql-app
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
     envVars:
       - key: OPENAI_API_KEY
-        sync: false  # Set this in Render dashboard manually for security
+        sync: false  # Set this in the Render dashboard manually
       - key: DB_NAME
         fromDatabase:
           name: nl2sql-db

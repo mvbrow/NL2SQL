@@ -1,28 +1,31 @@
-# app.py
-
-from shiny import App, ui, render, reactive
+from shiny import App, ui, render, reactive, run_app
 import pandas as pd
 import psycopg2
 import openai
 import os
 from dotenv import load_dotenv
-import sys
-from shiny import run_app
 
-# === Load environment variables from .env ===
+# === Load environment variables ===
 load_dotenv()
 
-# === OpenAI API Key from env ===
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# === Validate OpenAI key ===
+openai_api_key = os.getenv("OPENAI_API_KEY")
+if not openai_api_key:
+    raise RuntimeError("OPENAI_API_KEY is not set in environment.")
+openai.api_key = openai_api_key
 
-# === PostgreSQL credentials from env ===
-conn = psycopg2.connect(
-    dbname=os.getenv("DB_NAME"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host=os.getenv("DB_HOST"),
-    port=os.getenv("DB_PORT", "5432")  # Default to 5432 if not set
-)
+# === PostgreSQL credentials from environment ===
+try:
+    conn = psycopg2.connect(
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT", "5432")
+    )
+except Exception as e:
+    raise RuntimeError(f"Error connecting to PostgreSQL: {e}")
+
 cursor = conn.cursor()
 
 # === Get list of tables ===
@@ -42,18 +45,16 @@ cursor.execute("""
     ORDER BY table_name, ordinal_position;
 """)
 schema_info = cursor.fetchall()
-schema_str = ""
-for table, column, dtype in schema_info:
-    schema_str += f"{table}: {column} ({dtype})\n"
+schema_str = "\n".join(f"{table}: {column} ({dtype})" for table, column, dtype in schema_info)
 
 # === Prompt template ===
-def construct_prompt(nl_query, schema_str):
+def construct_prompt(nl_query, schema):
     return f"""
 You are an expert SQL assistant. Given the database schema and a natural language question,
 write an optimized PostgreSQL SELECT query using proper table joins if needed.
 
 Schema:
-{schema_str}
+{schema}
 
 Question:
 {nl_query}
@@ -84,8 +85,7 @@ def server(input, output, session):
         if not selected:
             return pd.DataFrame()
         try:
-            df = pd.read_sql_query(f"SELECT * FROM public.{selected} LIMIT 10", conn)
-            return df
+            return pd.read_sql_query(f"SELECT * FROM public.{selected} LIMIT 10", conn)
         except Exception as e:
             return pd.DataFrame({"Error": [str(e)]})
 
@@ -95,7 +95,6 @@ def server(input, output, session):
         nl_query = input.nl_input()
         if not nl_query:
             return
-
         try:
             client = openai.OpenAI()
             response = client.chat.completions.create(
@@ -118,17 +117,14 @@ def server(input, output, session):
         sql = input.sql_input()
         if not sql.strip().lower().startswith("select"):
             return pd.DataFrame({"Error": ["Only SELECT queries are allowed"]})
-
         try:
-            df = pd.read_sql_query(sql, conn)
-            return df
+            return pd.read_sql_query(sql, conn)
         except Exception as e:
             return pd.DataFrame({"Error": [str(e)]})
 
-# === Create App ===
+# === Run App (bind to 0.0.0.0 for Render) ===
 app = App(app_ui, server)
-# This ensures your app binds to the correct port Render expects
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "8000"))  # Fallback to 8000 for local dev
-    run_app(app, host="0.0.0.0", port=port)
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", "8000"))
+    run_app(app, host="0.0.0.0", port=port)
