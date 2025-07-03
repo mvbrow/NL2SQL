@@ -125,3 +125,7 @@ def server(input, output, session):
 
 # === Create App ===
 app = App(app_ui, server)
+# At the very bottom of your app.py
+if __name__ == "__main__":
+    import shiny
+    shiny.run_app(app, host="0.0.0.0", port=8080)
