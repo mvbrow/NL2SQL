@@ -1,5 +1,10 @@
-shiny
-pandas
-psycopg2-binary
+# Core dependencies
+shiny[full]
 openai
+psycopg2-binary
+pandas
 python-dotenv
+
+# Optional (improves debugging and server behavior)
+fastapi
+uvicorn

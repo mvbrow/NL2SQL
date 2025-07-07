@@ -6,9 +6,9 @@ services:
     startCommand: shiny run --app app.py --host 0.0.0.0 --port $PORT
     envVars:
       - key: OPENAI_API_KEY
-        sync: false  # You still need to manually set this one in the Dashboard
+        sync: false
       - fromDatabase:
-          name: nl2sql_db       # Render database name
+          name: nl2sql_db
           property: database
           envVarName: DB_NAME
       - fromDatabase:
