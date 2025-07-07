@@ -6,5 +6,5 @@ pandas
 python-dotenv
 
 # Optional (improves debugging and server behavior)
-fastapi
-uvicorn
+#fastapi
+#uvicorn

@@ -4,12 +4,7 @@ import psycopg2
 import openai
 import os
 from dotenv import load_dotenv
-import fastapi
-fastapi_app = fastapi.FastAPI()
 
-@fastapi_app.get("/")
-def healthcheck():
-    return {"status": "ok"}
 
 # === Load environment variables ===
 load_dotenv()
@@ -132,8 +127,8 @@ def server(input, output, session):
             return pd.DataFrame({"Error": [str(e)]})
 
 # === Run App (bind to 0.0.0.0 for Render) ===
-app = App(app_ui, server, fastapi_app=fastapi_app)
+app = App(app_ui, server)
 
-#if __name__ == "__main__":
-#    run_app(app, host="0.0.0.0", port=port)
-#for local run
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", "8000"))  # uses PORT env or defaults to 8000
+    run_app(app, host="0.0.0.0", port=port)
