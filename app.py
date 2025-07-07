@@ -1,4 +1,5 @@
 from shiny import App, ui, render, reactive
+#from shiny import App, ui, render, reactive, run_app
 import pandas as pd
 import psycopg2
 import openai
@@ -68,7 +69,28 @@ SQL:
 
 # === UI ===
 app_ui = ui.page_fluid(
-    ui.h2("Natural Language to SQL using GPT-4 and PostgreSQL"),
+    ui.HTML("""
+    <div style="background-color:#f0f0f0;padding:10px;border-radius:8px">
+    <h2 style="color:#2c3e50;">🔍 Natural Language to SQL App</h2>
+    <p style="font-size:14px;color:#555;"> <i>Developed by Mark V. Brow, Ph.D. </i></p>
+    <p style="font-size:16px;color:#555;">
+    Write natural language queries and convert them to SQL using GPT-4. 
+    </p>
+    </div>
+    <div style = "background-color: LightGray; padding: 10p; border-radius: 6px">
+    <p style="font-size: 14px; color:Blue;">
+    This dvdrental database contains several datasets related to the dvdrental industry. Use the 
+    scroll down menu to view the datasets. Common IDs as <b> actor_id</b> (also known as <em>primary keys</em>) 
+    allow you to JOIN or merge datasets. You may ask the question, "<i>How many movies was Penelope Guiness in?</i>"
+    which queries the <b>actor</b> dataset and the <b>film_actor</b> dataset. Or you may ask the question, "
+    <i>What are the emails of customers who paid more than 7 dollars for a movie</i>?" which queries the <b>customer</b>
+    dataset and the <b>payment</b> dataset. You can also perform NESTED queries, like, "<i>Find the names of customers who have rented movies with a rental rate higher than the average rental rate</i>". 
+    You many even perform string-to-numeric conversions, like, "<i>Which month had the highest
+    volume of rentals? Convert numeric to string.</i>" Give it a try!
+    </p>
+            </div>
+    """),
+    #ui.h2("Natural Language to SQL using GPT-4 and PostgreSQL"),
     ui.input_select("table_select", "Preview a table:", choices=tables),
     ui.output_table("table_preview"),
     ui.hr(),
