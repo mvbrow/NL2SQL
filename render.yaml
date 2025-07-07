@@ -3,10 +3,10 @@ services:
     name: nl2sql-app
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: shiny run --app app.py --host 0.0.0.0 --port $PORT
+    startCommand: shiny run --app-dir . --host 0.0.0.0 --port $PORT
     envVars:
       - key: OPENAI_API_KEY
-        sync: false  # You'll set this manually in the Render Dashboard
+        sync: false  # Set manually in the dashboard
       - fromDatabase:
           name: nl2sql_db
           property: database
@@ -27,8 +27,3 @@ services:
           name: nl2sql_db
           property: port
           envVarName: DB_PORT
-
-databases:
-  - name: nl2sql_db
-    databaseName: nl2sql_db
-    user: nl2sql_db_user
