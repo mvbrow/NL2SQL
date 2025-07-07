@@ -4,6 +4,13 @@ import psycopg2
 import openai
 import os
 from dotenv import load_dotenv
+import fastapi
+app_fastapi = fastapi.FastAPI()
+
+@app_fastapi.get("/")
+def read_root():
+    return {"status": "ok"}
+
 
 # === Load environment variables ===
 load_dotenv()
@@ -126,6 +133,8 @@ def server(input, output, session):
             return pd.DataFrame({"Error": [str(e)]})
 
 # === Run App (bind to 0.0.0.0 for Render) ===
-app = App(app_ui, server)
+app = App(app_ui, server, fastapi_app=app_fastapi)
 
-
+#if __name__ == "__main__":
+#    run_app(app, host="0.0.0.0", port=port)
+#for local run
