@@ -1,9 +1,12 @@
 # Core dependencies
+# Core dependencies
 shiny
 openai
 psycopg2-binary
 pandas
 python-dotenv
+jinja2
+
 
 # Optional (improves debugging and server behavior)
 #fastapi
