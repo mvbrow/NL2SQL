@@ -1,16 +1,16 @@
-from shiny import App, ui, render, reactive, run_app
+from shiny import App, ui, render, reactive
 import pandas as pd
 import psycopg2
 import openai
 import os
 from dotenv import load_dotenv
 
-
 # === Load environment variables ===
 load_dotenv()
 
-# === Debug: Print DB Host for verification ===
-print("DB HOST:", os.getenv("DB_HOST"))
+# === Debug: Print DB Host (only in development) ===
+if os.environ.get("ENV") != "production":
+    print("DB HOST:", os.getenv("DB_HOST"))
 
 # === Validate OpenAI key ===
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -129,6 +129,4 @@ def server(input, output, session):
 # === Run App (bind to 0.0.0.0 for Render) ===
 app = App(app_ui, server)
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "8000"))  # uses PORT env or defaults to 8000
-    run_app(app, host="0.0.0.0", port=port)
+

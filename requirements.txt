@@ -1,5 +1,5 @@
 # Core dependencies
-shiny[full]
+shiny
 openai
 psycopg2-binary
 pandas
