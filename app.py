@@ -77,9 +77,9 @@ app_ui = ui.page_fluid(
     Write natural language queries and convert them to SQL using GPT-4. 
     </p>
     </div>
-    <div style = "background-color: LightGray; padding: 10p; border-radius: 6px">
-    <p style="font-size: 14px; color:Blue;">
-    This dvdrental database contains several datasets related to the dvdrental industry. Use the 
+    <div style = "background-color: LightSalmon; padding: 10px; border-radius: 6px; border: 2px solid black">
+    <p style="font-size: 16px; color:black;">
+    This <b>dvdrental</b> database contains several datasets related to the dvd rental industry. Use the 
     scroll down menu to view the datasets. Common IDs as <b> actor_id</b> (also known as <em>primary keys</em>) 
     allow you to JOIN or merge datasets. You may ask the question, "<i>How many movies was Penelope Guiness in?</i>"
     which queries the <b>actor</b> dataset and the <b>film_actor</b> dataset. Or you may ask the question, "
