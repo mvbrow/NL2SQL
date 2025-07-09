@@ -85,7 +85,7 @@ app_ui = ui.page_fluid(
     which queries the <b>actor</b> dataset and the <b>film_actor</b> dataset. Or you may ask the question, "
     <i>What are the emails of customers who paid more than 7 dollars for a movie</i>?" which queries the <b>customer</b>
     dataset and the <b>payment</b> dataset. You can also perform NESTED queries, like, "<i>Find the names of customers who have rented movies with a rental rate higher than the average rental rate</i>". 
-    You many even perform string-to-numeric conversions, like, "<i>Which month had the highest
+    You may even perform string-to-numeric conversions, like, "<i>Which month had the highest
     volume of rentals? Convert numeric to string.</i>" Give it a try!
     </p>
             </div>
